@@ -55,9 +55,7 @@ const LicenseActivation = ({ onLogin, error, setError }) => {
                     <p lang="bn" className="mt-4 text-center text-gray-500 dark:text-gray-400">
                         আপনার কি লাইসেন্স Key নেই ? তাহলে{' '}
                         <span
-                            onClick={()=> window.open('https://fraud-checker.netlify.app')}
-                            target="_blank"
-                            rel="noreferrer"
+                            onClick={()=> window.open('https://fraud-checker.netlify.app',"_system")}
                             className="text-primary underline"
                         >
                             এখানে ক্লিক করুন
