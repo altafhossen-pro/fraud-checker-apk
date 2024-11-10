@@ -9,7 +9,6 @@ const Dashboard = ({ user, email, licenseKey }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    console.log(user)
     const fetchData = async () => {
         let phone = inputNumber.trim();
         const phonePattern = /^(?:\+8801|01)\d{9}$/;
