@@ -34,7 +34,7 @@ const MobileBottomHeader = ({ onLogout }) => {
 
 
     return (
-        <footer className="lg:hidden fixed z-30 bottom-0 bg-emerald-500 flex items-center justify-between w-full h-16 px-3 sm:px-10">
+        <footer className="lg:hidden fixed z-30 bottom-0 bg-customBlue flex items-center justify-between w-full h-16 px-3 sm:px-10">
             <button
                 onClick={() => setShowCategoryPage(!showCategoryPage)}
                 aria-label="Bar"
