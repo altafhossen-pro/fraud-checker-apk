@@ -45,13 +45,21 @@ const Dashboard = ({ user, email, licenseKey }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Something wrong. Check network connection and try again.');
+                const apiData = await response.json();
+                if (apiData?.message) {
+                    setError(apiData?.message);
+                    throw new Error(apiData?.message)
+                }
             }
-
             const apiData = await response.json();
             setData(apiData?.data);
         } catch (err) {
-            setError(err.message);
+            if (err?.message?.includes('Your subscription has expired')) {
+                setError(err?.message)
+            }
+            else {
+                setError('Something went wrong. Please try again later or contact with admin.')
+            }
         } finally {
             setLoading(false);
         }
@@ -136,7 +144,7 @@ const Dashboard = ({ user, email, licenseKey }) => {
                             className="flex-1 p-2 border border-gray-300 rounded w-full"
                         />
                         <svg
-                        onClick={handleReset}
+                            onClick={handleReset}
                             xmlns="http://www.w3.org/2000/svg"
                             fill="#000000"
                             width="1rem"
