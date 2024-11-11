@@ -4,14 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 
 const MobileBottomHeader = ({ onLogout }) => {
     const [showCartPage, setShowCartPage] = useState(false);
+    const [showMenus, setShowMenus] = useState(false);
     const [showCategoryPage, setShowCategoryPage] = useState(false);
     const cartModalRef = useRef(null);
-    const handleOpenSettingsMenu = () => {
-        const confirm = window.confirm("Are you want to sure log out ??")
-        if(confirm){
-            onLogout();
-        }
-    }
+    const buttonRef = useRef(null);
+    const menuRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutsideCart = (event) => {
@@ -35,9 +32,32 @@ const MobileBottomHeader = ({ onLogout }) => {
     }, [showCartPage]);
 
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Check if the click is outside both the menu and the button
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                setShowMenus(false);
+            }
+        };
+
+        // Add the event listener
+        document.addEventListener('mousedown', handleClickOutside);
+
+        // Cleanup the event listener when the component unmounts
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+
 
     return (
-        <footer className="lg:hidden fixed z-30 bottom-0 bg-customBlue flex items-center justify-between w-full h-16 px-3 sm:px-10">
+        <footer className="lg:hidden fixed z-30 bottom-0 bg-customBlue flex items-center justify-between w-full h-16 px-3 sm:px-10 ">
             <button
                 onClick={() => setShowCategoryPage(!showCategoryPage)}
                 aria-label="Bar"
@@ -88,9 +108,10 @@ const MobileBottomHeader = ({ onLogout }) => {
 
 
             <button
-                className="text-xl text-white"
+                ref={buttonRef}
+                className="text-xl text-white px-4 py-2"
                 type='button'
-                onClick={handleOpenSettingsMenu}
+                onClick={() => setShowMenus(!showMenus)}
             >
                 <svg
                     stroke="currentColor"
@@ -114,7 +135,9 @@ const MobileBottomHeader = ({ onLogout }) => {
 
 
             </button>
-
+            {showMenus && <div ref={menuRef} className='absolute right-0 top-[-64px] bg-customBlue p-4'>
+                <button className='text-white' onClick={() => onLogout()}>Log Out</button>
+            </div>}
 
         </footer>
     );
