@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Loader from '../Loader/Loader';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const Dashboard = ({ user, email, licenseKey }) => {
     const [inputNumber, setInputNumber] = useState('');
@@ -126,9 +127,24 @@ const Dashboard = ({ user, email, licenseKey }) => {
                 <h2 className="text-center bg-customBlue text-white text-lg font-semibold p-2 rounded-t-lg">
                     Hello, {user?.fullName}
                 </h2>
-                <p className="text-center bg-blue-100 text-customBlue text-sm font-semibold p-2 rounded-t-lg mb-0">
-                    Your subscription is active and will expire in {getRemainingTime(user?.expireDate)}
-                </p>
+                {
+                    getRemainingTime(user?.expireDate) === "Expired" ? <div>
+                        <p className="text-center bg-blue-100 text-red-400 text-sm font-semibold p-2 rounded-t-lg mb-0">
+                            Your subscription is Expired. Please upgrade your subscription to continue with us.
+                        </p>
+                        <div className='flex mx-auto my-3'>
+                            <button
+                                onClick={() => window.open('https://fraud-checker.netlify.app/#pricing', "_system")}
+                                className="py-2 px-8 bg-green-600 text-white rounded hover:bg-grenn-700  mx-auto"
+                            >
+                                Upgrade Subscription
+                            </button>
+                        </div>
+                    </div> : <p className="text-center bg-blue-100 text-customBlue text-sm font-semibold p-2 rounded-t-lg mb-0">
+                        Your subscription is active and will expire in {getRemainingTime(user?.expireDate)}
+                    </p>
+                }
+
             </div>
 
             <form onSubmit={handleLoadUserData}>
