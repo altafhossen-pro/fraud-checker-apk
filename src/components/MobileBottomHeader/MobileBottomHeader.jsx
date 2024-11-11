@@ -7,7 +7,10 @@ const MobileBottomHeader = ({ onLogout }) => {
     const [showCategoryPage, setShowCategoryPage] = useState(false);
     const cartModalRef = useRef(null);
     const handleOpenSettingsMenu = () => {
-        onLogout();
+        const confirm = window.confirm("Are you want to sure log out ??")
+        if(confirm){
+            onLogout();
+        }
     }
 
     useEffect(() => {
