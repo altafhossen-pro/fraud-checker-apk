@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Loader from '../Loader/Loader';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
 
 const Dashboard = ({ user, email, licenseKey }) => {
     const [inputNumber, setInputNumber] = useState('');
@@ -72,7 +71,9 @@ const Dashboard = ({ user, email, licenseKey }) => {
 
     const handleLoadUserData = (event) => {
         event.preventDefault();
-        fetchData();
+        if (inputNumber) {
+            fetchData();
+        }
     };
 
     useEffect(() => {
@@ -199,7 +200,7 @@ const Dashboard = ({ user, email, licenseKey }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {['steadfast', 'steadfastOld', 'redex', 'pathao', 'paperfly'].map((key, index) => (
+                                {['steadfast', 'redex', 'pathao', 'paperfly'].map((key, index) => (
                                     <tr key={index} className="border-b border-gray-200 dark:border-slate-600">
                                         <td className="px-4 py-2">{`${index + 1}. ${key.charAt(0).toUpperCase() + key.slice(1)}`}</td>
                                         <td className="px-4 py-2">{data[key]?.total}</td>
@@ -215,21 +216,21 @@ const Dashboard = ({ user, email, licenseKey }) => {
                                 <tr className="border-b border-gray-200 dark:border-slate-600">
                                     <td className="text-primary px-4 py-2">Total</td>
                                     <td className="px-4 py-2">
-                                        {['steadfast', 'steadfastOld', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.total || 0), 0)}
+                                        {['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.total || 0), 0)}
                                     </td>
                                     <td className="px-4 py-2">
-                                        {['steadfast', 'steadfastOld', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0)}
+                                        {['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0)}
                                     </td>
                                     <td className="px-4 py-2">
-                                        {['steadfast', 'steadfastOld', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0)}
+                                        {['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0)}
                                     </td>
                                     <td className="px-4 py-2">
-                                        {(['steadfast', 'steadfastOld', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) +
-                                            ['steadfast', 'steadfastOld', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0)) > 0
+                                        {(['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) +
+                                            ['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0)) > 0
                                             ? (
-                                                (['steadfast', 'steadfastOld', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) /
-                                                    (['steadfast', 'steadfastOld', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) +
-                                                        ['steadfast', 'steadfastOld', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0))) * 100
+                                                (['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) /
+                                                    (['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) +
+                                                        ['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0))) * 100
                                             ).toFixed(2)
                                             : 0}%
                                     </td>
@@ -238,11 +239,13 @@ const Dashboard = ({ user, email, licenseKey }) => {
                         </table>
 
                     </div>
-                    <div className='flex gap-2 my-4'>
+                    <div className='flex gap-2 my-4 no-print'>
                         <button className='w-full bg-primary text-white px-4 py-3 rounded uppercase'>
                             Download
                         </button>
-                        <button className='w-full bg-customBlue text-white px-4 py-3 rounded uppercase'>
+                        <button onClick={() => {
+                            window.print()
+                        }} className='w-full bg-customBlue text-white px-4 py-3 rounded uppercase'>
                             Print Result
                         </button>
                     </div>
