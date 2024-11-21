@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+// eslint-disable-next-line react/prop-types
 const LicenseActivation = ({ onLogin, error, setError }) => {
     const [licenseKey, setLicenseKey] = useState('');
     const [email, setEmail] = useState('');
@@ -55,7 +56,7 @@ const LicenseActivation = ({ onLogin, error, setError }) => {
                     <p lang="bn" className="mt-4 text-center text-gray-500 dark:text-gray-400">
                         আপনার কি লাইসেন্স Key নেই ? তাহলে{' '}
                         <span
-                            onClick={()=> window.open('https://fraud-checker.netlify.app',"_system")}
+                            onClick={() => window.open('https://fraud-checker.netlify.app', "_system")}
                             className="text-primary underline"
                         >
                             এখানে ক্লিক করুন
