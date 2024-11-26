@@ -122,7 +122,7 @@ const Dashboard = ({ user, email, licenseKey }) => {
                 <div>
                     <img className='w-32 flex mx-auto' src="/images/logo.png" alt="logo" />
                 </div>
-                <h2 className='text-center text-2xl text-[#0049aa]'>True Fraud Checker</h2>
+                <h2 className='text-center text-2xl text-[#0049aa] dark:text-white'>True Fraud Checker</h2>
             </div>
             <div className="rounded-t-lg">
                 <h2 className="text-center bg-customBlue text-white text-lg font-semibold p-2 rounded-t-lg">
@@ -192,16 +192,16 @@ const Dashboard = ({ user, email, licenseKey }) => {
                         <table className="min-w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
                             <thead>
                                 <tr>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 font-semibold">Courier</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 font-semibold">Total Order</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 font-semibold">Delivered</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 font-semibold">Returned</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 font-semibold">Success Ratio</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Courier</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Total Order</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Delivered</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Returned</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Success Ratio</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {['steadfast', 'redex', 'pathao', 'paperfly'].map((key, index) => (
-                                    <tr key={index} className="border-b border-gray-200 dark:border-slate-600">
+                                    <tr key={index} className="border-b border-gray-200 dark:border-slate-600 dark:text-white">
                                         <td className="px-4 py-2">{`${index + 1}. ${key.charAt(0).toUpperCase() + key.slice(1)}`}</td>
                                         <td className="px-4 py-2">{data[key]?.total}</td>
                                         <td className="px-4 py-2">{data[key]?.success}</td>
@@ -215,16 +215,16 @@ const Dashboard = ({ user, email, licenseKey }) => {
                                 ))}
                                 <tr className="border-b border-gray-200 dark:border-slate-600">
                                     <td className="text-primary px-4 py-2">Total</td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-4 py-2 dark:text-white">
                                         {['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.total || 0), 0)}
                                     </td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-4 py-2 dark:text-white">
                                         {['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0)}
                                     </td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-4 py-2 dark:text-white">
                                         {['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0)}
                                     </td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-4 py-2 dark:text-white">
                                         {(['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) +
                                             ['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0)) > 0
                                             ? (
