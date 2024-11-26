@@ -148,7 +148,7 @@ const MobileBottomHeader = ({ onLogout }) => {
                 <div className="drawer-mask" />
                 <div className="drawer-content-wrapper" style={{ transform: showCategoryPage ? "" : "translateX(-100%)" }}>
                     <div className="drawer-content">
-                        <div className="flex flex-col w-full h-full bg-white cursor-pointer scrollbar-hide">
+                        <div className="flex flex-col w-full h-full bg-white dark:text-slate-400 dark:bg-slate-800 cursor-pointer scrollbar-hide">
                             <div className="w-full flex justify-between items-center h-16 px-6 py-4 bg-customBlue text-white border-b border-gray-100">
                                 <h2 className="font-semibold font-serif text-lg m-0 text-heading flex items-center">
                                     <a className="mr-2" href="/">

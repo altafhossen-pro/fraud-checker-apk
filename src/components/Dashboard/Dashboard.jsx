@@ -191,12 +191,12 @@ const Dashboard = ({ user, email, licenseKey }) => {
                     <div className="overflow-auto mt-4 ">
                         <table className="min-w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
                             <thead>
-                                <tr>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Courier</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Total Order</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Delivered</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Returned</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-white font-semibold">Success Ratio</th>
+                                <tr className='dark:border-b'>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Courier</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Total Order</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Delivered</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Returned</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Success Ratio</th>
                                 </tr>
                             </thead>
                             <tbody>
