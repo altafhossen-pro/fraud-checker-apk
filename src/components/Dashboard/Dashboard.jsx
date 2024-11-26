@@ -189,8 +189,46 @@ const Dashboard = ({ user, email, licenseKey }) => {
             ) : data ? (
                 <>
                     <div className="overflow-auto mt-4 ">
+                        <div className='mb-4'>
+                            {(() => {
+                                const totalSuccess = data.steadfast?.success + data.redex?.success + data.pathao?.success + data.paperfly?.success;
+                                const totalCancel = data.steadfast?.cancel + data.redex?.cancel + data.pathao?.cancel + data.paperfly?.cancel;
+                                const totalTransactions = totalSuccess + totalCancel;
+                                const hasBadRecord = data?.details?.length > 0; // Check if the details array has any elements
+
+                                if (hasBadRecord) {
+                                    // If customer has a bad report, mark as negative
+                                    return <p lang='bn' className="text-danger text-center">এই কাস্টমারের বিরুদ্ধে রিপোর্ট আছে, পার্সেল দেওয়ার ক্ষেত্রে অগ্রিম ডেলিভারি চার্জ নিয়ে নিবেন !</p>;
+                                } else if (totalTransactions === 0) {
+                                    // No history scenario
+                                    return <p lang='bn' className="text-muted text-center">কাস্টমারের কোনো পার্সেল ইতিহাস নেই, কাস্টমারকে ভালো হিসেবে বিবেচনা করা যেতে পারে</p>;
+                                } else if (totalTransactions > 0 && totalSuccess === 0) {
+                                    // Has order but success rate is 0%
+                                    return <p lang='bn' className="text-danger text-center">কাস্টমারের কোনো সফল পার্সেল নেই, পার্সেল দেওয়া ঝুঁকিপূর্ণ হতে পারে</p>;
+                                } else {
+                                    const successRate = (totalSuccess / totalTransactions) * 100;
+
+                                    if (successRate === 100) {
+                                        return <p lang='bn' className="text-success text-center">কাস্টমার অত্যন্ত ভালো, একে নিশ্চিন্তে পার্সেল দিতে পারেন</p>;
+                                    } else if (successRate >= 80) {
+                                        return <p lang='bn' className="text-primary text-center">কাস্টমার মোটামুটি ভালো, সাধারণত সমস্যা হয় না</p>;
+                                    } else if (successRate >= 50) {
+                                        if (totalTransactions <= 3 && totalCancel < totalTransactions / 2) {
+                                            return <p lang='bn' className="text-primary text-center">কাস্টমার কম অর্ডার করেছে কিন্তু তুলনামূলকভাবে কম বাতিল করেছে, সাধারণত ভালো</p>;
+                                        } else if (totalTransactions > 3 && totalCancel <= totalTransactions / 3) {
+                                            return <p lang='bn' className="text-warning text-center">কাস্টমার মোটামুটি ভালো, সাবধানতার সাথে পার্সেল দিতে হবে</p>;
+                                        } else {
+                                            return <p lang='bn' className="text-danger text-center">অগ্রিম ডেলিভারি চার্জ সহ সাবধানতার সাথে পার্সেল দিতে হবে</p>;
+                                        }
+                                    } else {
+                                        return <p lang='bn' className="text-danger text-center">কাস্টমারের পার্সেল বাতিলের হার বেশি, বিশেষ সতর্কতা অবলম্বন করা জরুরি</p>;
+                                    }
+                                }
+                            })()}
+                        </div>
                         <table className="min-w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
                             <thead>
+
                                 <tr className='dark:border-b'>
                                     <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 dark:text-slate-200 font-semibold">Courier</th>
                                     <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 dark:text-slate-200 font-semibold">Total Order</th>
