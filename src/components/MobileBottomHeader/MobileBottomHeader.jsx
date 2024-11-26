@@ -212,7 +212,7 @@ const MobileBottomHeader = ({ onLogout }) => {
                                     </div>
 
                                     <div className='mb-3' >
-                                        <Link lang='bn' to='/'>
+                                        <Link lang='bn' to='https://www.youtube.com/watch?v=fDEO_S-zDHM&t=142s'>
                                             ক্রোম এক্সটেনশন সেটাপ ভিডিও লিংক
                                         </Link>
                                     </div>
