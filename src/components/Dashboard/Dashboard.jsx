@@ -198,13 +198,16 @@ const Dashboard = ({ user, email, licenseKey }) => {
 
                                 if (hasBadRecord) {
                                     // If customer has a bad report, mark as negative
-                                    return <p lang='bn' className="text-danger text-center">এই কাস্টমারের বিরুদ্ধে রিপোর্ট আছে, পার্সেল দেওয়ার ক্ষেত্রে অগ্রিম ডেলিভারি চার্জ নিয়ে নিবেন !</p>;
+                                    return <>
+                                        <p lang='bn' className="text-red-500 text-center">এই কাস্টমারের বিরুদ্ধে রিপোর্ট আছে, পার্সেল দেওয়ার ক্ষেত্রে অগ্রিম ডেলিভারি চার্জ নিয়ে নিবেন ! রিপোর্ট দেখতে একদম নিচের দিকে স্ক্রল করুন ! </p>
+
+                                    </>;
                                 } else if (totalTransactions === 0) {
                                     // No history scenario
                                     return <p lang='bn' className="text-muted text-center">কাস্টমারের কোনো পার্সেল ইতিহাস নেই, কাস্টমারকে ভালো হিসেবে বিবেচনা করা যেতে পারে</p>;
                                 } else if (totalTransactions > 0 && totalSuccess === 0) {
                                     // Has order but success rate is 0%
-                                    return <p lang='bn' className="text-danger text-center">কাস্টমারের কোনো সফল পার্সেল নেই, পার্সেল দেওয়া ঝুঁকিপূর্ণ হতে পারে</p>;
+                                    return <p lang='bn' className="text-red-500 text-center">কাস্টমারের কোনো সফল পার্সেল নেই, পার্সেল দেওয়া ঝুঁকিপূর্ণ হতে পারে</p>;
                                 } else {
                                     const successRate = (totalSuccess / totalTransactions) * 100;
 
@@ -218,10 +221,10 @@ const Dashboard = ({ user, email, licenseKey }) => {
                                         } else if (totalTransactions > 3 && totalCancel <= totalTransactions / 3) {
                                             return <p lang='bn' className="text-warning text-center">কাস্টমার মোটামুটি ভালো, সাবধানতার সাথে পার্সেল দিতে হবে</p>;
                                         } else {
-                                            return <p lang='bn' className="text-danger text-center">অগ্রিম ডেলিভারি চার্জ সহ সাবধানতার সাথে পার্সেল দিতে হবে</p>;
+                                            return <p lang='bn' className="text-red-500 text-center">অগ্রিম ডেলিভারি চার্জ সহ সাবধানতার সাথে পার্সেল দিতে হবে</p>;
                                         }
                                     } else {
-                                        return <p lang='bn' className="text-danger text-center">কাস্টমারের পার্সেল বাতিলের হার বেশি, বিশেষ সতর্কতা অবলম্বন করা জরুরি</p>;
+                                        return <p lang='bn' className="text-red-500 text-center">কাস্টমারের পার্সেল বাতিলের হার বেশি, বিশেষ সতর্কতা অবলম্বন করা জরুরি</p>;
                                     }
                                 }
                             })()}
@@ -276,6 +279,8 @@ const Dashboard = ({ user, email, licenseKey }) => {
                             </tbody>
                         </table>
 
+
+
                     </div>
                     <div className='flex gap-2 my-4 no-print'>
                         <button className='w-full bg-primary text-white px-4 py-3 rounded uppercase'>
@@ -287,6 +292,30 @@ const Dashboard = ({ user, email, licenseKey }) => {
                             Print Result
                         </button>
                     </div>
+                    <div className='my-6'>
+                        <p lang='bn' className="text-red-500 text-center">বি.দ্রঃ কাস্টমারদের রিপোর্ট / অভিযোগ গুলো সম্মানিত মার্চেন্টরাই এন্ট্রি করে থাকে তাদের সিস্টেমে, তাই এখানে (১৮+) এডাল্ট শব্দ থাকতে পারে, আমরা শুধুমাত্র মার্চেন্টদের রিপোর্ট বা মতামত গুলোই নিয়ে থাকি ! কোনোরুপ খারাপ শব্দ বা বাক্য True Fraud Checker কখনই সমর্থন করে না ! </p>
+                    </div>
+                    <div className='grid grid-cols-1 gap-3'>
+                        {data?.details?.map((report, index) => {
+                            return (
+                                <div key={index} className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-lg space-y-4 border border-gray-200">
+                                    <div className="">
+                                        <h2 lang='bn' className="text-lg font-semibold text-gray-800">কাস্টমারের নামঃ {report?.name || "নাম পাওয়া যায়নি !"}</h2>
+                                    </div>
+                                    <div>
+                                        <p lang='bn' className="text-gray-600">{report?.details}</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-sm text-gray-500">
+                                            {new Date(report?.created_at).toLocaleString()}
+                                        </p>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+
+
                 </>
             ) : (
                 error && <p className="text-red-500">{error}</p>
