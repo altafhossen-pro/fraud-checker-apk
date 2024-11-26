@@ -192,11 +192,11 @@ const Dashboard = ({ user, email, licenseKey }) => {
                         <table className="min-w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg">
                             <thead>
                                 <tr className='dark:border-b'>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Courier</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Total Order</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Delivered</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Returned</th>
-                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-800 dark:text-slate-200 font-semibold">Success Ratio</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 dark:text-slate-200 font-semibold">Courier</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 dark:text-slate-200 font-semibold">Total Order</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 dark:text-slate-200 font-semibold">Delivered</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 dark:text-slate-200 font-semibold">Returned</th>
+                                    <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 dark:text-slate-200 font-semibold">Success Ratio</th>
                                 </tr>
                             </thead>
                             <tbody>
