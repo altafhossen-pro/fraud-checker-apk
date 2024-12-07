@@ -15,6 +15,11 @@ const Dashboard = ({ user, email, licenseKey }) => {
 
         phone = phone.replace(/[-\s]/g, '');
 
+        if (phone) {
+            const browserUrl = new URL(window.location.href);
+            browserUrl.searchParams.set('phone', phone); // Add or update the `phone` query param
+            window.history.pushState({}, '', browserUrl);
+        }
         if (!phone) {
             toast.error('দয়া করে মোবাইল নম্বর লিখুন', {
                 style: { fontFamily: "'Hind Siliguri', sans-serif" },
