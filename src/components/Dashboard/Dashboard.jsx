@@ -292,9 +292,12 @@ const Dashboard = ({ user, email, licenseKey }) => {
                             Print Result
                         </button>
                     </div>
-                    <div className='my-6'>
-                        <p lang='bn' className="text-red-500 text-center">বি.দ্রঃ কাস্টমারদের রিপোর্ট / অভিযোগ গুলো সম্মানিত মার্চেন্টরাই এন্ট্রি করে থাকে তাদের সিস্টেমে, তাই এখানে (১৮+) এডাল্ট শব্দ থাকতে পারে, আমরা শুধুমাত্র মার্চেন্টদের রিপোর্ট বা মতামত গুলোই নিয়ে থাকি ! কোনোরুপ খারাপ শব্দ বা বাক্য True Fraud Checker কখনই সমর্থন করে না ! </p>
-                    </div>
+                    {
+                        data?.details?.length > 0 && <div className='my-6'>
+                            <p lang='bn' className="text-red-500 text-center">বি.দ্রঃ কাস্টমারদের রিপোর্ট / অভিযোগ গুলো সম্মানিত মার্চেন্টরাই এন্ট্রি করে থাকে তাদের সিস্টেমে, তাই এখানে (১৮+) এডাল্ট শব্দ থাকতে পারে, আমরা শুধুমাত্র মার্চেন্টদের রিপোর্ট বা মতামত গুলোই নিয়ে থাকি ! কোনোরুপ খারাপ শব্দ বা বাক্য True Fraud Checker কখনই সমর্থন করে না ! </p>
+                        </div>
+                    }
+
                     <div className='grid grid-cols-1 gap-3'>
                         {data?.details?.map((report, index) => {
                             return (
