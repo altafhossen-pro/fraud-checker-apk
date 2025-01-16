@@ -49,7 +49,7 @@ function App() {
       const data = await response.json();
 
       if (response.ok && data.user) {
-        return data.user;
+        return data;
       } else {
         setError(data?.message);
         throw new Error(data.message || 'User not found');
@@ -92,7 +92,7 @@ function App() {
   }, [activeTab]);
 
   const handleLogin = async (email, licenseKey) => {
-    const user = await authenticateUser(email, licenseKey);
+    const { user, token } = await authenticateUser(email, licenseKey);
 
     if (user) {
       setIsLoggedIn(true);
@@ -100,6 +100,7 @@ function App() {
       await setInStorage('licenseKey', licenseKey);
       await setInStorage('email', email);
       await setInStorage('user', user); // Store user data in storage
+      await setInStorage('token', token); // Store user data in storage
       setEmail(email);
       setLicenseKey(licenseKey);
       setActiveTab('dashboard');
