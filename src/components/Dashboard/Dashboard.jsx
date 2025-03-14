@@ -37,7 +37,7 @@ const Dashboard = ({ user, email, licenseKey }) => {
 
         setLoading(true);
         const url = process.env.NODE_ENV === 'production'
-            ? "https://fraud-check-production.up.railway.app/api/v1/data/get-customer-data-extenstion"
+            ? `${import.meta.env.VITE_APP_BACKEND_SITE_LINK}/api/v1/data/get-customer-data-extenstion`
             : "http://localhost:8080/api/v1/data/get-customer-data-extenstion";
 
         try {
