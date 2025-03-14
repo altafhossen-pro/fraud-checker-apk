@@ -5,10 +5,13 @@ import Loader from '../Loader/Loader';
 import toast from 'react-hot-toast';
 
 const Dashboard = ({ user, email, licenseKey }) => {
+    const [availableRequest, setAvailableRequest] = useState(0);
+
     const [inputNumber, setInputNumber] = useState('');
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
     const fetchData = async () => {
         let phone = inputNumber.trim();
         const phonePattern = /^(?:\+8801|01)\d{9}$/;
@@ -53,14 +56,23 @@ const Dashboard = ({ user, email, licenseKey }) => {
                 const apiData = await response.json();
                 if (apiData?.message) {
                     setError(apiData?.message);
-                    throw new Error(apiData?.message)
                 }
+                return;
             }
-            const apiData = await response.json();
-            setData(apiData?.data);
+            else {
+                const apiData = await response.json();
+                setData(apiData?.data);
+                setAvailableRequest(availableRequest - 1)
+            }
         } catch (err) {
+            toast.error(err?.message)
+            console.log(err);
             if (err?.message?.includes('Your subscription has expired')) {
                 setError(err?.message)
+
+            }
+            else if (err?.message?.includes('আপনি আজকের জন্য নির্ধারিত')) {
+                setError(err?.error)
             }
             else {
                 setError('Something went wrong. Please try again later or contact with admin.')
@@ -120,6 +132,57 @@ const Dashboard = ({ user, email, licenseKey }) => {
         setLoading(false);
         setError(null);
     };
+    let token = localStorage.getItem('token');
+
+    if (token) {
+        token = token.trim().replace(/^"|"$/g, ''); // Removes surrounding quotes
+    }
+    useEffect(() => {
+
+        const loadData = async () => {
+
+            const url = process.env.NODE_ENV === 'production'
+                ? `${import.meta.env.VITE_APP_BACKEND_SITE_LINK}/api/v1/user/get-user`
+                : "http://localhost:8080/api/v1/user/get-user";
+
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    method: "GET"
+                });
+
+                if (!response.ok) {
+                    console.log('error');
+                }
+                else {
+                    const result = await response.json();
+                    setAvailableRequest(result?.availableRequestCount)
+
+                }
+            } catch (err) {
+                toast.error(err?.message)
+                console.log(err);
+                if (err?.message?.includes('Your subscription has expired')) {
+                    setError(err?.message)
+
+                }
+                else if (err?.message?.includes('আপনি আজকের জন্য নির্ধারিত')) {
+                    setError(err?.error)
+                }
+                else {
+                    setError('Something went wrong. Please try again later or contact with admin.')
+                }
+            } finally {
+                setLoading(false);
+            }
+        }
+        if (token) {
+            loadData();
+        }
+    }, [token])
 
     return (
         <div className={`min-h-100 rounded-lg mt-2 border border-gray-300 dark:border-slate-700 px-4 py-4 ${user?.email && 'mb-20'}`}>
@@ -127,29 +190,47 @@ const Dashboard = ({ user, email, licenseKey }) => {
                 <div>
                     <img className='w-32 flex mx-auto' src="/images/logo.png" alt="logo" />
                 </div>
-                <h2 className='text-center text-2xl text-[#0049aa] dark:text-white'>True Fraud Checker</h2>
+                <h2 className='text-center text-2xl text-[#0049aa] dark:text-white'>Percel Score</h2>
             </div>
             <div className="rounded-t-lg">
                 <h2 className="text-center bg-customBlue text-white text-lg font-semibold p-2 rounded-t-lg">
                     Hello, {user?.fullName}
                 </h2>
                 {
-                    getRemainingTime(user?.expireDate) === "Expired" ? <div>
+                    getRemainingTime(user?.expireDate) === "Expired" && user?.subscription?.type !== 'free' && <div>
                         <p className="text-center bg-blue-100 text-red-400 text-sm font-semibold p-2 rounded-t-lg mb-0">
                             Your subscription is Expired. Please upgrade your subscription to continue with us.
                         </p>
                         <div className='flex mx-auto my-3'>
                             <button
-                                onClick={() => window.open('https://fraud-checker.netlify.app/#pricing', "_system")}
+                                onClick={() => window.open('https://percelscore.top/#pricing', "_system")}
                                 className="py-2 px-8 bg-green-600 text-white rounded hover:bg-grenn-700  mx-auto"
                             >
                                 Upgrade Subscription
                             </button>
                         </div>
-                    </div> : <p className="text-center bg-blue-100 text-customBlue text-sm font-semibold p-2 rounded-t-lg mb-0">
+                    </div>
+                }
+                {
+                    user?.subscription?.type !== 'free' && <p className="text-center bg-blue-100 text-customBlue text-sm font-semibold p-2 rounded-t-lg mb-0">
                         Your subscription is active and will expire in {getRemainingTime(user?.expireDate)}
                     </p>
                 }
+                {
+                    user?.subscription?.type === 'free' && <p
+                        lang='bn'
+                        className="text-center bg-blue-100 text-purple-500 text-sm font-semibold p-2 rounded-t-lg mb-0">
+                        আপনার ফ্রি ট্রায়াল প্রতিদিন রাত <span className='font-bold'>১২</span> টায় রিসেট হবে ! তারপরে আবার চেক করতে পারবেন !
+                    </p>
+                }
+                {
+                    user?.subscription?.type === 'free' && availableRequest > -1 && <p
+                        lang='bn'
+                        className="text-center bg-blue-100 text-customBlue text-sm font-semibold p-2 rounded-t-lg mb-0">
+                        {availableRequest} টি চেক বাকি !
+                    </p>
+                }
+
 
             </div>
 
@@ -299,7 +380,7 @@ const Dashboard = ({ user, email, licenseKey }) => {
                     </div>
                     {
                         data?.details?.length > 0 && <div className='my-6'>
-                            <p lang='bn' className="text-red-500 text-center">বি.দ্রঃ কাস্টমারদের রিপোর্ট / অভিযোগ গুলো সম্মানিত মার্চেন্টরাই এন্ট্রি করে থাকে তাদের সিস্টেমে, তাই এখানে (১৮+) এডাল্ট শব্দ থাকতে পারে, আমরা শুধুমাত্র মার্চেন্টদের রিপোর্ট বা মতামত গুলোই নিয়ে থাকি ! কোনোরুপ খারাপ শব্দ বা বাক্য True Fraud Checker কখনই সমর্থন করে না ! </p>
+                            <p lang='bn' className="text-red-500 text-center">বি.দ্রঃ কাস্টমারদের রিপোর্ট / অভিযোগ গুলো সম্মানিত মার্চেন্টরাই এন্ট্রি করে থাকে তাদের সিস্টেমে, তাই এখানে (১৮+) এডাল্ট শব্দ থাকতে পারে, আমরা শুধুমাত্র মার্চেন্টদের রিপোর্ট বা মতামত গুলোই নিয়ে থাকি ! কোনোরুপ খারাপ শব্দ বা বাক্য Percel Score কখনই সমর্থন করে না ! </p>
                         </div>
                     }
 
@@ -326,7 +407,7 @@ const Dashboard = ({ user, email, licenseKey }) => {
 
                 </>
             ) : (
-                error && <p className="text-red-500">{error}</p>
+                error && <p lang='bn' className="text-red-500 mt-3">{error}</p>
             )}
         </div>
     );

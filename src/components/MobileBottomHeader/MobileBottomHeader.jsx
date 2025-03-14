@@ -159,7 +159,7 @@ const MobileBottomHeader = ({ onLogout }) => {
                                             style={{ color: "transparent" }}
                                         />
                                     </a>
-                                    <span lang='bn' className="text-2xl">True Fraud Checker</span>
+                                    <span lang='bn' className="text-2xl">Percel Score</span>
                                 </h2>
                                 <button
                                     onClick={() => setShowCategoryPage(!showCategoryPage)}
