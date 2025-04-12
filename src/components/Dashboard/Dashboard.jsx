@@ -327,41 +327,67 @@ const Dashboard = ({ user, email, licenseKey }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {['steadfast', 'redex', 'pathao', 'paperfly'].map((key, index) => (
-                                    <tr key={index} className="border-b border-gray-200 dark:border-slate-600 dark:text-white">
-                                        <td className="px-4 py-2">{`${index + 1}. ${key.charAt(0).toUpperCase() + key.slice(1)}`}</td>
-                                        <td className="px-4 py-2">{data[key]?.total}</td>
-                                        <td className="px-4 py-2">{data[key]?.success}</td>
-                                        <td className="px-4 py-2">{data[key]?.cancel}</td>
-                                        <td className="px-4 py-2">
-                                            {data[key]?.success + data[key]?.cancel > 0
-                                                ? ((data[key]?.success / (data[key]?.success + data[key]?.cancel)) * 100).toFixed(2)
-                                                : 0}%
-                                        </td>
-                                    </tr>
-                                ))}
-                                <tr className="border-b border-gray-200 dark:border-slate-600">
-                                    <td className="text-primary px-4 py-2">Total</td>
-                                    <td className="px-4 py-2 dark:text-white">
-                                        {['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.total || 0), 0)}
-                                    </td>
-                                    <td className="px-4 py-2 dark:text-white">
-                                        {['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0)}
-                                    </td>
-                                    <td className="px-4 py-2 dark:text-white">
-                                        {['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0)}
-                                    </td>
-                                    <td className="px-4 py-2 dark:text-white">
-                                        {(['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) +
-                                            ['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0)) > 0
-                                            ? (
-                                                (['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) /
-                                                    (['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.success || 0), 0) +
-                                                        ['steadfast', 'redex', 'pathao', 'paperfly'].reduce((sum, key) => sum + (data[key]?.cancel || 0), 0))) * 100
-                                            ).toFixed(2)
-                                            : 0}%
+                                <tr>
+                                    <td className='flex gap-1 px-4 py-2 items-center'>1. <img width={90} src="/images/steadfast.png" alt="" /></td>
+                                    <td>{data.steadfast?.total}</td>
+                                    <td>{data.steadfast?.success}</td>
+                                    <td>{data.steadfast?.cancel}</td>
+                                    <td>
+                                        {data.steadfast?.success + data.steadfast?.cancel > 0 ?
+                                            ((data.steadfast?.success / (data.steadfast?.success + data.steadfast?.cancel)) * 100).toFixed(2) :
+                                            0}%
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td className='flex gap-1 px-4 py-2 items-center'>2. <img width={60} src="/images/redX.png" alt="" /></td>
+                                    <td>{data.redex?.total}</td>
+                                    <td>{data.redex?.success}</td>
+                                    <td>{data.redex?.cancel}</td>
+                                    <td>
+                                        {data.redex?.success + data.redex?.cancel > 0 ?
+                                            ((data.redex?.success / (data.redex?.success + data.redex?.cancel)) * 100).toFixed(2) :
+                                            0}%
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='flex gap-1 px-4 py-2 items-center'><div>
+                                    3.</div> <img width={75} src="/images/pathao.png" alt="pathao" /></td>
+                                    <td>{data.pathao?.total}</td>
+                                    <td>{data.pathao?.success}</td>
+                                    <td>{data.pathao?.cancel}</td>
+                                    <td>
+                                        {data.pathao?.success + data.pathao?.cancel > 0 ?
+                                            ((data.pathao?.success / (data.pathao?.success + data.pathao?.cancel)) * 100).toFixed(2) :
+                                            0}%
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='flex gap-1 px-4 py-2 items-center'><div>
+                                    4.</div> <img width={100} src="/images/paperfly.png" alt="" /></td>
+                                    <td>{data?.paperfly?.total}</td>
+                                    <td>{data?.paperfly?.success}</td>
+                                    <td>{data?.paperfly?.cancel}</td>
+                                    <td>{data.paperfly?.success + data.paperfly?.cancel > 0 ?
+                                        ((data.paperfly?.success / (data.paperfly?.success + data.paperfly?.cancel)) * 100).toFixed(2) :
+                                        0}%</td>
+                                </tr>
+                                {/* <tr>
+                                                <td lang='bn' className='text-primary ps-4 '>সর্বমোট</td>
+                                                <td>{data.steadfast?.total + data.steadfastOld?.total + data.redex?.total + data.pathao?.total + data.paperfly?.total}</td>
+
+                                                <td>{data.steadfast?.success + data.steadfastOld?.success + data.redex?.success + data.pathao?.success + data.paperfly?.success}</td>
+
+                                                <td>{data.steadfast?.cancel + data?.steadfastOld?.cancel + data.redex?.cancel + data.pathao?.cancel + data.paperfly?.cancel}</td>
+                                                <td>
+                                                    {(data.steadfast?.success + data.steadfastOld?.success + data.redex?.success + data.pathao?.success + data.paperfly?.success +
+                                                        data.steadfast?.cancel + data.steadfastOld?.cancel + data.redex?.cancel + data.pathao?.cancel + data.paperfly?.cancel > 0) ?
+                                                        (
+                                                            ((data.steadfast?.success + data.steadfastOld?.success + data.redex?.success + data.pathao?.success + data.paperfly?.success) /
+                                                                (data.steadfast?.success + data.steadfastOld?.success + data.redex?.success + data.pathao?.success + data.paperfly?.success +
+                                                                    data.steadfast?.cancel + data.steadfastOld?.cancel + data.redex?.cancel + data.pathao?.cancel + data.paperfly?.cancel)) * 100
+                                                        ).toFixed(2) : 0}%
+                                                </td>
+                                            </tr> */}
                             </tbody>
                         </table>
 
