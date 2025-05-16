@@ -326,10 +326,10 @@ const Dashboard = ({ user, email, licenseKey }) => {
                                     <th className="px-4 py-2 text-left bg-gray-200 dark:bg-slate-700 dark:text-slate-200 font-semibold">Success Ratio</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
+                            <tbody className='text-center '>
+                                <tr >
                                     <td className='flex gap-1 px-4 py-2 items-center'>1. <img width={90} src="/images/steadfast.png" alt="" /></td>
-                                    <td>{data.steadfast?.total}</td>
+                                    <td className=''>{data.steadfast?.total}</td>
                                     <td>{data.steadfast?.success}</td>
                                     <td>{data.steadfast?.cancel}</td>
                                     <td>
@@ -351,7 +351,7 @@ const Dashboard = ({ user, email, licenseKey }) => {
                                 </tr>
                                 <tr>
                                     <td className='flex gap-1 px-4 py-2 items-center'><div>
-                                    3.</div> <img width={75} src="/images/pathao.png" alt="pathao" /></td>
+                                        3.</div> <img width={75} src="/images/pathao.png" alt="pathao" /></td>
                                     <td>{data.pathao?.total}</td>
                                     <td>{data.pathao?.success}</td>
                                     <td>{data.pathao?.cancel}</td>
@@ -363,7 +363,7 @@ const Dashboard = ({ user, email, licenseKey }) => {
                                 </tr>
                                 <tr>
                                     <td className='flex gap-1 px-4 py-2 items-center'><div>
-                                    4.</div> <img width={100} src="/images/paperfly.png" alt="" /></td>
+                                        4.</div> <img width={100} src="/images/paperfly.png" alt="" /></td>
                                     <td>{data?.paperfly?.total}</td>
                                     <td>{data?.paperfly?.success}</td>
                                     <td>{data?.paperfly?.cancel}</td>
@@ -394,15 +394,17 @@ const Dashboard = ({ user, email, licenseKey }) => {
 
 
                     </div>
-                    <div className='flex gap-2 my-4 no-print'>
-                        <button className='w-full bg-primary text-white px-4 py-3 rounded uppercase'>
-                            Download
-                        </button>
-                        <button onClick={() => {
-                            window.print()
-                        }} className='w-full bg-customBlue text-white px-4 py-3 rounded uppercase'>
-                            Print Result
-                        </button>
+                    <div className='hidden md:block'>
+                        <div className='flex gap-2 my-4 no-print'>
+                            <button className='w-full bg-primary text-white px-4 py-3 rounded uppercase'>
+                                Download
+                            </button>
+                            <button onClick={() => {
+                                window.print()
+                            }} className='w-full bg-customBlue text-white px-4 py-3 rounded uppercase'>
+                                Print Result
+                            </button>
+                        </div>
                     </div>
                     {
                         data?.details?.length > 0 && <div className='my-6'>
@@ -414,15 +416,27 @@ const Dashboard = ({ user, email, licenseKey }) => {
                         {data?.details?.map((report, index) => {
                             return (
                                 <div key={index} className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-lg space-y-4 border border-gray-200">
-                                    <div className="">
-                                        <h2 lang='bn' className="text-lg font-semibold text-gray-800">কাস্টমারের নামঃ {report?.name || "নাম পাওয়া যায়নি !"}</h2>
+                                    <div className="border-b border-gray-200 pb-2">
+
+                                        <div className="flex justify-between items-start gap-2 flex-wrap">
+                                            <div className=''>
+                                                <p className='text-sm' lang='bn'>কুরিয়ারঃ Steadfast</p>
+                                                <p className='text-sm' lang='bn'>মার্চেন্ট আইডিঃ {report?.user_id}</p>
+                                            </div>
+                                            <div>
+                                                <h2 lang='bn' className="text-sm">কাস্টমার নামঃ {report?.name || "নাম পাওয়া যায়নি !"}</h2>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                     <div>
                                         <p lang='bn' className="text-gray-600">{report?.details}</p>
                                     </div>
                                     <div className="text-right">
                                         <p className="text-sm text-gray-500">
-                                            {new Date(report?.created_at).toLocaleString()}
+                                            {new Date(report?.created_at).toLocaleString('en-GB')}
+
                                         </p>
                                     </div>
                                 </div>
